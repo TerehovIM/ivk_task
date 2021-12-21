@@ -2,6 +2,8 @@
 #define JSONTABLEVIEW_H
 
 #include <QMainWindow>
+#include <QFileInfo>
+#include <QDir>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class jsonTableView; }
@@ -14,6 +16,8 @@ class jsonTableView : public QMainWindow
 public:
     jsonTableView(QWidget *parent = nullptr);
     ~jsonTableView();
+
+    const QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
 
 private:
     Ui::jsonTableView *ui;
