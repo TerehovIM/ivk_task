@@ -5,7 +5,10 @@ jsonTableView::jsonTableView(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::jsonTableView)
 {
+    QString test = jsonFilesPath;
+
     ui->setupUi(this);
+
 }
 
 jsonTableView::~jsonTableView()
