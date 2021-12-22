@@ -1,11 +1,26 @@
 #ifndef JSONINFO_H
 #define JSONINFO_H
 
+#include <QString>
 
-class jsonInfo
+class JsonInfo
 {
 public:
-    jsonInfo();
+    JsonInfo();
+    JsonInfo(unsigned int id, QString name, bool status, float price);
+    unsigned int getId() const;
+    QString getName() const;
+    bool getStatus() const;
+    float getPrice() const;
+    void setId(unsigned int value);
+    void setName(const QString &value);
+    void setStatus(bool value);
+    void setPrice(float value);
+private:
+    unsigned int id;
+    QString name;
+    bool status;
+    float price;
 };
 
 #endif // JSONINFO_H

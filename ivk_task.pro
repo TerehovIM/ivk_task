@@ -9,13 +9,17 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    jsondirwatcher.cpp \
     jsoninfo.cpp \
     main.cpp \
-    jsontableview.cpp
+    jsontableview.cpp \
+    qtableviewmodel.cpp
 
 HEADERS += \
+    jsondirwatcher.h \
     jsoninfo.h \
-    jsontableview.h
+    jsontableview.h \
+    qtableviewmodel.h
 
 FORMS += \
     jsontableview.ui

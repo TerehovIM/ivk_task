@@ -4,22 +4,26 @@
 #include <QMainWindow>
 #include <QFileInfo>
 #include <QDir>
+#include <QAbstractListModel>
+
+#include "qtableviewmodel.h"
+#include "jsoninfo.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class jsonTableView; }
+namespace Ui { class JsonTableView; }
 QT_END_NAMESPACE
 
-class jsonTableView : public QMainWindow
+class JsonTableView : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    jsonTableView(QWidget *parent = nullptr);
-    ~jsonTableView();
+    JsonTableView(QWidget *parent = nullptr);
+    ~JsonTableView();
 
     const QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
 
 private:
-    Ui::jsonTableView *ui;
+    Ui::JsonTableView *ui;
 };
 #endif // JSONTABLEVIEW_H
