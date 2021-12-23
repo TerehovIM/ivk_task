@@ -25,6 +25,7 @@ public:
     const QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
 
 private:
+    QThread watcherThread;
     Ui::JsonTableView *ui;
 };
 #endif // JSONTABLEVIEW_H

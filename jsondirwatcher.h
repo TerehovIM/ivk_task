@@ -13,10 +13,12 @@ class JsonDirWatcher : public QObject
 public:
     JsonDirWatcher(QString path);
 private:
-    void checkJsonDir(QString path);
-    unsigned int timerPeriod = 500;
+    QTimer *timer;
+    int timerPeriod = 100;
     QString jsonFilesPath;
     QFileInfoList lastInfo;
+private slots:
+    void checkJsonDir();
 
 };
 

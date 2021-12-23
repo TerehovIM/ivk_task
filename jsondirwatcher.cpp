@@ -2,14 +2,14 @@
 
 JsonDirWatcher::JsonDirWatcher(QString path)
 {
-    QTimer *timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(checkJsonDir(path)));
+    jsonFilesPath = path;
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(checkJsonDir()));
     timer->start(timerPeriod);
-
 }
-void JsonDirWatcher::checkJsonDir(QString path)
+void JsonDirWatcher::checkJsonDir()
 {
-    QFileInfoList newInfo = QDir(path).entryInfoList(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable, QDir::Time);
+    QFileInfoList newInfo = QDir(jsonFilesPath).entryInfoList(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable, QDir::Time);
     QMutableListIterator<QFileInfo> infoIt(newInfo);
     while(infoIt.hasNext())
     {

@@ -11,7 +11,19 @@ JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     QString test = jsonFilesPath;
     ui->setupUi(this);
 
+
+
+
+
+
     JsonDirWatcher *watcher = new JsonDirWatcher(jsonFilesPath);
+    watcher->moveToThread(&watcherThread);
+    watcherThread.start();
+
+
+
+
+
 
 
     QList<JsonInfo> *values = new QList<JsonInfo>;
@@ -26,6 +38,8 @@ JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::
 
 JsonTableView::~JsonTableView()
 {
+    watcherThread.quit();
+    watcherThread.wait();
     delete ui;
 }
 
