@@ -1,0 +1,22 @@
+{
+    "list": [
+        {
+            "id": 1,
+            "name": "one",
+            "status": true,
+            "price": 1.1
+        },
+        {
+            "id": 2,
+            "name": "two",
+            "status": false,
+            "price": 2.1
+        },
+        {
+            "id": 3,
+            "name": "three",
+            "status": true,
+            "price": 3.1
+        }
+    ]
+}

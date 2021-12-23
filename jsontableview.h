@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QAbstractListModel>
+#include <QThread>
 
 #include "qtableviewmodel.h"
 #include "jsoninfo.h"
