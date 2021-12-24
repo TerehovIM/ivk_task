@@ -7,6 +7,8 @@
 #include <QAbstractListModel>
 #include <QThread>
 
+#include "jsondirwatcher.h"
+#include "ui_jsontableview.h"
 #include "qtableviewmodel.h"
 #include "jsoninfo.h"
 
@@ -17,15 +19,18 @@ QT_END_NAMESPACE
 class JsonTableView : public QMainWindow
 {
     Q_OBJECT
-
+    QThread watcherThread;
 public:
     JsonTableView(QWidget *parent = nullptr);
     ~JsonTableView();
 
-    const QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
+private slots:
+    void on_lineEdit_editingFinished();
+    void on_pushButton_clicked();
 
 private:
-    QThread watcherThread;
+    JsonDirWatcher *watcher;
     Ui::JsonTableView *ui;
+    QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
 };
 #endif // JSONTABLEVIEW_H
