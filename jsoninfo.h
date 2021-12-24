@@ -7,17 +7,17 @@ class JsonInfo
 {
 public:
     JsonInfo();
-    JsonInfo(int id, QString name, bool status, float price);
-    int getId() const;
+    JsonInfo(unsigned int id, QString name, bool status, float price);
+    unsigned int getId() const;
     QString getName() const;
     bool getStatus() const;
     float getPrice() const;
-    void setId(int value);
+    void setId(unsigned int value);
     void setName(const QString &value);
     void setStatus(bool value);
     void setPrice(float value);
 private:
-    int id;
+    unsigned int id;
     QString name;
     bool status;
     float price;

@@ -5,11 +5,9 @@ QTableViewModel::QTableViewModel(QObject *parent):QAbstractListModel(parent)
     values = new QList<JsonInfo>;
 }
 
-int QTableViewModel::rowCount(const QModelIndex &parent) const
+int QTableViewModel::rowCount(const QModelIndex &) const
 {
-    if(parent.isValid())
-        return 0;
-    return m_data->count();
+    return values->count();
 }
 
 int QTableViewModel::columnCount(const QModelIndex &) const

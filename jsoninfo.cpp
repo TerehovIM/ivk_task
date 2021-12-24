@@ -4,14 +4,14 @@ JsonInfo::JsonInfo()
 {    
 
 }
-JsonInfo::JsonInfo(int id, QString name, bool status, float price)
+JsonInfo::JsonInfo(unsigned int id, QString name, bool status, float price)
 {
     this->id = id;
     this->name = name;
     this->status = status;
     this->price = price;
 }
-int JsonInfo::getId() const
+unsigned int JsonInfo::getId() const
 {
     return id;
 }
@@ -27,7 +27,7 @@ float JsonInfo::getPrice() const
 {
     return price;
 }
-void JsonInfo::setId(int value)
+void JsonInfo::setId(unsigned int value)
 {
     id = value;
 }
