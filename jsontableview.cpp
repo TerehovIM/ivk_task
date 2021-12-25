@@ -11,13 +11,14 @@ JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     watcherThread.start();
 
     model = new QTableViewModel();
+    this->ui->tableView->setModel(model);
+
     connect(watcher, &JsonDirWatcher::jsonReaded, this, &JsonTableView::jsonInfoChanged);
 }
 
 void JsonTableView::jsonInfoChanged(QList<JsonInfo> inf)
 {
-    model->populate(&inf);
-    this->ui->tableView->setModel(model);
+    model->update(inf);
 }
 
 JsonTableView::~JsonTableView()

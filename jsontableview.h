@@ -24,7 +24,6 @@ class JsonTableView : public QMainWindow
 public:
     JsonTableView(QWidget *parent = nullptr);
     ~JsonTableView();
-    QTableViewModel *model;
 public slots:
     void jsonInfoChanged(QList<JsonInfo> inf);
 
@@ -34,7 +33,8 @@ private slots:
 
 private:
     JsonDirWatcher *watcher;
+    QTableViewModel *model;
     QString jsonFilesPath = QDir::currentPath() + "/JsonFiles";
-    Ui::JsonTableView *ui;
+    Ui::JsonTableView *ui;    
 };
 #endif // JSONTABLEVIEW_H

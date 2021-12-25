@@ -11,9 +11,9 @@ public:
     int rowCount(const QModelIndex &) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    void populate(QList<JsonInfo> *newValues);
+    void update(QList<JsonInfo> newValues);
 private:
-    QList<JsonInfo> *values;
+    QList<JsonInfo> values;
 };
 
 #endif // QTABLEVIEWMODEL_H

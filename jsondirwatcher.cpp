@@ -21,6 +21,7 @@ void JsonDirWatcher::checkJsonDir()
     {
         lastInfo.clear();
         lastInfo = newInfo;
+        readInfoFromFiles(newInfo);
         emit jsonReaded(readInfoFromFiles(newInfo));
     }
 }
