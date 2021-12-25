@@ -20,7 +20,6 @@ class JsonTableView : public QMainWindow
 {
     Q_OBJECT
     QThread watcherThread;
-
 public:
     JsonTableView(QWidget *parent = nullptr);
     ~JsonTableView();
