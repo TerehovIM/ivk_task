@@ -44,20 +44,3 @@ void JsonTableView::on_pushButton_clicked()
     ui->lineEdit->clearFocus();
 }
 
-void JsonTableView::on_lineEdit_editingFinished()
-{
-    QString newPath = ui->lineEdit->text();
-    if(QFileInfo(newPath).isDir()&&QDir(newPath).exists())
-    {
-        jsonFilesPath = newPath;
-        watcher->setPath(jsonFilesPath);
-    }
-    else
-        ui->lineEdit->setText(jsonFilesPath);
-}
-
-void JsonTableView::on_pushButton_clicked()
-{
-    ui->lineEdit->clearFocus();
-}
-
