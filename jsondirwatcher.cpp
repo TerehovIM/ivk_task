@@ -38,7 +38,6 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QFile jsonFile(fileInfo.absoluteFilePath());
         if(!jsonFile.open(QIODevice::ReadOnly))
         {
-            //QMessageBox::warning(this,"",QString("Ошибка чтения файла "+fileInfo.absoluteFilePath()));
             return buffer;
         }
         QByteArray jsonFileData = jsonFile.readAll();
@@ -48,7 +47,6 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QJsonDocument jsonDocument(QJsonDocument::fromJson(jsonFileData,&parseError));
         if(parseError.error != QJsonParseError::NoError)
         {
-            //QMessageBox::warning(this,"",QString("Error at"+QString.fromInt(parseError.offset)+" : "+parseError.errorString()));
             return buffer;
         }
 

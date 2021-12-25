@@ -17,51 +17,49 @@ int QTableViewModel::columnCount(const QModelIndex &) const
 
 QVariant QTableViewModel::data( const QModelIndex &index, int role ) const
 {
-
-    QVariant value;
-
-        switch ( role )
-        {
-            case Qt::DisplayRole:
+    if(!index.isValid())
+        return QVariant();
+    if(index.row() >= values->count())
+        return QVariant();
+    if(role == Qt::DisplayRole)
+    {
+        switch (index.column()) {
+            case 0:
             {
-                switch (index.column()) {
-                    case 0: {
-                        value = this->values->at(index.row()).getId();
-                        break;
-                    }
-                    case 1: {
-                        value = this->values->at(index.row()).getName();
-                        break;
-                    }
-                    case 2: {
-                        value = this->values->at(index.row()).getStatus();
-                        break;
-                    }
-                    case 3: {
-                        value = this->values->at(index.row()).getPrice();
-                        break;
-                    }
-                }
-            }
-            break;
-
-            case Qt::UserRole:
-            {
-                value = this->values->at(index.row()).getId();
-            }
-            break;
-
-            default:
+                return this->values->at(index.row()).getId();
                 break;
+            }
+            case 1:
+            {
+                return this->values->at(index.row()).getName();
+                break;
+            }
+            case 2:
+            {
+                return this->values->at(index.row()).getStatus();
+                break;
+            }
+            case 3:
+            {
+                return this->values->at(index.row()).getPrice();
+                break;
+            }
+            default:
+            {
+                return QVariant();
+            }
         }
-
-    return value;
+    }
+    else
+        return QVariant();
 }
 
 void QTableViewModel::populate(QList<JsonInfo> *newValues)
 {
-    int idx = this->values->count();
-    this->beginInsertRows(QModelIndex(), 1, idx);
-        this->values = newValues;
+    this->beginRemoveColumns(QModelIndex(),1,4);
+    endRemoveColumns();
+
+    this->beginInsertRows(QModelIndex(), 1, values->count());
+    this->values = newValues;
     endInsertRows();
  }
