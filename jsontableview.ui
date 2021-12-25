@@ -7,14 +7,28 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>418</height>
+    <height>448</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>jsonTableView</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Change json dir</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item>
      <widget class="QTableView" name="tableView">
       <property name="minimumSize">
