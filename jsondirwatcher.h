@@ -15,6 +15,8 @@
 class JsonDirWatcher : public QObject
 {
     Q_OBJECT
+signals:
+    void jsonReaded(QList<JsonInfo>);
 public:
     JsonDirWatcher(QString path);
     void setPath(QString path);

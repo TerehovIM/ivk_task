@@ -10,18 +10,30 @@ JsonDirWatcher::JsonDirWatcher(QString path)
 
 void JsonDirWatcher::checkJsonDir()
 {
+    QFileInfoList buffer = lastInfo;
     QFileInfoList newInfo = QDir(jsonFilesPath).entryInfoList(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable, QDir::Time);
     QMutableListIterator<QFileInfo> infoIt(newInfo);
     while(infoIt.hasNext())
     {
         if(infoIt.next().suffix() != "json")
             infoIt.remove();
+        else
+        {
+            for(int n = 0; n < buffer.count(); n++)
+            {
+                if(infoIt.value().absoluteFilePath() == buffer.at(n).absoluteFilePath() && infoIt.value().lastModified() == buffer.at(n).lastModified())
+                {
+                    buffer.removeAt(n);
+                    break;
+                }
+            }
+        }
     }
-    if(newInfo!=lastInfo)
+    if(!buffer.isEmpty()||lastInfo.count() < newInfo.count())
     {
         lastInfo.clear();
         lastInfo = newInfo;
-        readInfoFromFiles(newInfo);
+        emit jsonReaded(readInfoFromFiles(newInfo));
     }
 }
 
@@ -38,8 +50,7 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QFile jsonFile(fileInfo.absoluteFilePath());
         if(!jsonFile.open(QIODevice::ReadOnly))
         {
-            //QMessageBox::warning(this,"",QString("Ошибка чтения файла "+fileInfo.absoluteFilePath()));
-            return buffer;
+            continue;
         }
         QByteArray jsonFileData = jsonFile.readAll();
         jsonFile.close();
@@ -48,20 +59,19 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QJsonDocument jsonDocument(QJsonDocument::fromJson(jsonFileData,&parseError));
         if(parseError.error != QJsonParseError::NoError)
         {
-            //QMessageBox::warning(this,"",QString("Error at"+QString.fromInt(parseError.offset)+" : "+parseError.errorString()));
-            return buffer;
+            continue;
         }
 
         QJsonObject jsonObj = jsonDocument.object();
         QJsonArray jsonArray;
         jsonArray = jsonObj["list"].toArray();
-        foreach(QJsonValue val, jsonArray)
+        for(int n = 0; n < jsonArray.count(); n++)
         {
-            QJsonObject obj = val.toObject();
-            JsonInfo jsonInf(obj.value(QString::number(0)).toInt(),
-                             obj.value(QString::number(1)).toString(),
-                             obj.value(QString::number(2)).toBool(),
-                             obj.value(QString::number(3)).toDouble());
+            QJsonObject obj = jsonArray[n].toObject();
+            JsonInfo jsonInf(obj.take("id").toInt(),
+                             obj.take("name").toString(),
+                             obj.take("status").toBool(),
+                             obj.take("price").toDouble());
             buffer.append(jsonInf);
         }
     }

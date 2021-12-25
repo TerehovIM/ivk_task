@@ -1,25 +1,24 @@
 #include "jsontableview.h"
-#include "jsondirwatcher.h"
-#include "ui_jsontableview.h"
 
 JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::JsonTableView)
 {
+    ui->setupUi(this);
     ui->lineEdit->setText(jsonFilesPath);
     ui->lineEdit->clearFocus();
-    ui->setupUi(this);
 
     watcher = new JsonDirWatcher(jsonFilesPath);
     watcher->moveToThread(&watcherThread);
     watcherThread.start();
 
+    model = new QTableViewModel();
+    this->ui->tableView->setModel(model);
 
+    connect(watcher, &JsonDirWatcher::jsonReaded, this, &JsonTableView::jsonInfoChanged);
+}
 
-//    QList<JsonInfo> *values = new QList<JsonInfo>;
-//    values->append(JsonInfo(1,"test",0,1.2));
-
-//    QTableViewModel *model = new QTableViewModel();
-//    model->populate(values);
-//    this->ui->tableView->setModel(model);
+void JsonTableView::jsonInfoChanged(QList<JsonInfo> inf)
+{
+    model->update(inf);
 }
 
 JsonTableView::~JsonTableView()
