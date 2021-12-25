@@ -15,13 +15,9 @@ int QTableViewModel::columnCount(const QModelIndex &) const
     return 4;
 }
 
-QVariant QTableViewModel::data( const QModelIndex &index, int role ) const
+QVariant QTableViewModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid())
-        return QVariant();
-    if(index.row() >= values.count())
-        return QVariant();
-    if(role == Qt::DisplayRole && !values.isEmpty())
+    if(role == Qt::DisplayRole && !values.isEmpty() && index.isValid())
     {
         switch (index.column()) {
             case 0:
@@ -44,27 +40,25 @@ QVariant QTableViewModel::data( const QModelIndex &index, int role ) const
                 return this->values.at(index.row()).getPrice();
                 break;
             }
-            default:
-            {
-                return QVariant();
-            }
         }
     }
-    else
-        return QVariant();
+    return QVariant();
 }
 
 void QTableViewModel::update(QList<JsonInfo> newValues)
 {
-    if(!this->values.isEmpty())
-    {
-        this->beginRemoveRows(QModelIndex(), 1, values.count());
-        this->endRemoveRows();
-        values.clear();
-    }
+    if(this->values.count() != 0)
+        this->clear();
 
     this->values = newValues;
     int idx = this->values.count();
     this->beginInsertRows(QModelIndex(), 1, idx);
     endInsertRows();
  }
+
+void QTableViewModel::clear()
+{
+    this->beginResetModel();
+    this->endResetModel();
+    values.clear();
+}

@@ -10,10 +10,11 @@ public:
     QTableViewModel(QObject *parent=nullptr);
     int rowCount(const QModelIndex &) const;
     int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
     void update(QList<JsonInfo> newValues);
 private:
     QList<JsonInfo> values;
+    QVariant data(const QModelIndex &index, int role) const;
+    void clear();
 };
 
 #endif // QTABLEVIEWMODEL_H

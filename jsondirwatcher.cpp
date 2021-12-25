@@ -10,18 +10,29 @@ JsonDirWatcher::JsonDirWatcher(QString path)
 
 void JsonDirWatcher::checkJsonDir()
 {
+    QFileInfoList buffer = lastInfo;
     QFileInfoList newInfo = QDir(jsonFilesPath).entryInfoList(QDir::Files|QDir::NoDotAndDotDot|QDir::NoSymLinks|QDir::Readable, QDir::Time);
     QMutableListIterator<QFileInfo> infoIt(newInfo);
     while(infoIt.hasNext())
     {
         if(infoIt.next().suffix() != "json")
             infoIt.remove();
+        else
+        {
+            for(int n = 0; n < buffer.count(); n++)
+            {
+                if(infoIt.value().absoluteFilePath() == buffer.at(n).absoluteFilePath() && infoIt.value().lastModified() == buffer.at(n).lastModified())
+                {
+                    buffer.removeAt(n);
+                    break;
+                }
+            }
+        }
     }
-    if(newInfo!=lastInfo)
+    if(!buffer.isEmpty()||lastInfo.count() < newInfo.count())
     {
         lastInfo.clear();
         lastInfo = newInfo;
-        readInfoFromFiles(newInfo);
         emit jsonReaded(readInfoFromFiles(newInfo));
     }
 }
@@ -39,7 +50,7 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QFile jsonFile(fileInfo.absoluteFilePath());
         if(!jsonFile.open(QIODevice::ReadOnly))
         {
-            return buffer;
+            continue;
         }
         QByteArray jsonFileData = jsonFile.readAll();
         jsonFile.close();
@@ -48,7 +59,7 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         QJsonDocument jsonDocument(QJsonDocument::fromJson(jsonFileData,&parseError));
         if(parseError.error != QJsonParseError::NoError)
         {
-            return buffer;
+            continue;
         }
 
         QJsonObject jsonObj = jsonDocument.object();
@@ -57,7 +68,6 @@ QList<JsonInfo> JsonDirWatcher::readInfoFromFiles(QFileInfoList infoList)
         for(int n = 0; n < jsonArray.count(); n++)
         {
             QJsonObject obj = jsonArray[n].toObject();
-            //obj.take(QString::number(0)).toInt();
             JsonInfo jsonInf(obj.take("id").toInt(),
                              obj.take("name").toString(),
                              obj.take("status").toBool(),
