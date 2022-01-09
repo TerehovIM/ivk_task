@@ -25,6 +25,7 @@ public:
     ~JsonTableView();
 public slots:
     void jsonInfoChanged(QList<JsonInfo> inf);
+    void jsonErrorShow(QString errMessage);
 
 private slots:
     void on_lineEdit_editingFinished();

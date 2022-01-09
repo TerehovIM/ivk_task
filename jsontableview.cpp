@@ -14,11 +14,17 @@ JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     this->ui->tableView->setModel(model);
 
     connect(watcher, &JsonDirWatcher::jsonReaded, this, &JsonTableView::jsonInfoChanged);
+    connect(watcher, &JsonDirWatcher::jsonError, this, &JsonTableView::jsonErrorShow);
 }
 
 void JsonTableView::jsonInfoChanged(QList<JsonInfo> inf)
 {
     model->update(inf);
+}
+
+void JsonTableView::jsonErrorShow(QString errMessage)
+{
+    QMessageBox::critical(this,"Error!",errMessage);
 }
 
 JsonTableView::~JsonTableView()
