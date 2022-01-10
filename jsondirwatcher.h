@@ -15,12 +15,12 @@
 class JsonDirWatcher : public QObject
 {
     Q_OBJECT
-signals:
-    void jsonReaded(QList<JsonInfo>);
-    void jsonError(QString);
 public:
     JsonDirWatcher(QString path);
     void setPath(QString path);
+signals:
+    void jsonReaded(QList<JsonInfo>);
+    void jsonError(QString);
 private:
     QTimer *timer;
     int timerPeriod = 100;

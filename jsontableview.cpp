@@ -7,14 +7,13 @@ JsonTableView::JsonTableView(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     ui->lineEdit->clearFocus();
 
     watcher = new JsonDirWatcher(jsonFilesPath);
+    connect(watcher, &JsonDirWatcher::jsonReaded, this, &JsonTableView::jsonInfoChanged,Qt::DirectConnection);
+    connect(watcher, &JsonDirWatcher::jsonError, this, &JsonTableView::jsonErrorShow,Qt::DirectConnection);
     watcher->moveToThread(&watcherThread);
     watcherThread.start();
 
     model = new QTableViewModel();
     this->ui->tableView->setModel(model);
-
-    connect(watcher, &JsonDirWatcher::jsonReaded, this, &JsonTableView::jsonInfoChanged);
-    connect(watcher, &JsonDirWatcher::jsonError, this, &JsonTableView::jsonErrorShow);
 }
 
 void JsonTableView::jsonInfoChanged(QList<JsonInfo> inf)

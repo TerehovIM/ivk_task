@@ -14,7 +14,6 @@ public:
 private:
     QList<JsonInfo> values;
     QVariant data(const QModelIndex &index, int role) const;
-    void clear();
 };
 
 #endif // QTABLEVIEWMODEL_H

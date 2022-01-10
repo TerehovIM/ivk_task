@@ -47,18 +47,8 @@ QVariant QTableViewModel::data(const QModelIndex &index, int role) const
 
 void QTableViewModel::update(QList<JsonInfo> newValues)
 {
-    if(this->values.count() != 0)
-        this->clear();
-
-    this->values = newValues;
-    int idx = this->values.count();
-    this->beginInsertRows(QModelIndex(), 1, idx);
-    endInsertRows();
- }
-
-void QTableViewModel::clear()
-{
     this->beginResetModel();
     this->endResetModel();
-    values.clear();
-}
+    this->values = newValues;
+    this->insertRows(1,this->values.count(),QModelIndex());
+ }
